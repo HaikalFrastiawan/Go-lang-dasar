@@ -29,7 +29,7 @@ func main(){
 	inventory := map[string]int{
 		"Buku" : 10,
 		"Pena" : 25,
-		"Penghapus" : 5,
+		"Penghapus" : 5,   
 	}
 
 	fmt.Println(inventory)
