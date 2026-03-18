@@ -9,8 +9,8 @@ func TestHelloWorldHaikal(t *testing.T) {
 	result := HelloWorld("Haikal")
 
 	if result != "Hello Haikal" {
-		//code yg bawah masih bisa di eksekusi
-		t.Fail()
+		t.Error("Result Must be 'Hello Haikal'")
+
 	}
 
 	fmt.Println("TestHelloWorld Done")
@@ -20,7 +20,7 @@ func TestHelloWorldFrastiawan(t *testing.T) {
 	result := HelloWorld("Frastiawan")
 
 	if result != "Hello Frastiawan" {
-		t.FailNow()
+		t.Fatal("Result Must be 'Hello Frastiawan'")
 	}
 	fmt.Println("TestHelloWorldFrastiawan Done")
 }
