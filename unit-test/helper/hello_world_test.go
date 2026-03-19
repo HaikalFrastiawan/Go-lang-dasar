@@ -10,6 +10,22 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// benchmark = kecepatan func
+// runing benchmark :
+// go test -v -bench=. (runing seluruh)
+// go test -v -run=NotMatchUnitTest -bench=BenchMarkTest (runing banchmark tanpa runing unit test)
+func BenchmarkHelloWorldHaikal(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HelloWorld("Haikal")
+	}
+}
+
+func BenchmarkHelloWorldFrastiawan(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HelloWorld("Frastiawan")
+	}
+}
+
 // Table test
 func TestTableHelloWorld(t *testing.T) {
 	tests := []struct {
