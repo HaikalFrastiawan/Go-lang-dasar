@@ -10,6 +10,25 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+//subBenchmark
+//go test -v -bench=BenchmarkNama/NamaSub
+//go test -v -bench=BenchmarkSub/HaikalSub
+func BenchmarkSub(b *testing.B){
+	b.Run("HaikalSub", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			HelloWorld("Haikal")
+	}
+	})
+
+
+		b.Run("FrastiawanSub", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			HelloWorld("FrastiawanSub")
+	}
+	})
+}
+
+
 // benchmark = kecepatan func
 // runing benchmark :
 // go test -v -bench=. (runing seluruh)
