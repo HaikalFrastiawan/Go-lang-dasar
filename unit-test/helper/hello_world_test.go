@@ -2,12 +2,24 @@ package helper
 
 import (
 	"fmt"
+	"runtime"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
 )
+
+//skip
+func TestSkip(t *testing.T){
+	if runtime.GOOS == "windows" {
+		t.Skip("can not run on Windows")
+	}
+	//ini hanya esek
+	result := HelloWorld("Haikal")
+	require.Equal(t, "Hello Haikal", result , "Result must be 'Hello Haikal'")
+	
+}
+
 
 //Require -> sama seperti failNow() ketika gagal kode bawahnya ga di eksekusi
 func TestHelloWorldRequire(t *testing.T) {
