@@ -10,34 +10,59 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-//SubTest 
-func TestSubtest(t *testing.T){
+// Table test
+func TestTableHelloWorld(t *testing.T) {
+	tests := []struct {
+		name     string
+		request  string
+		expected string
+	}{
+		{
+			name:     "HaikalTable",
+			request:  "HaikalTable",
+			expected: "Hello HaikalTable",
+		},
+		{
+			name:     "FrastiawanTable",
+			request:  "FrastiawanTable",
+			expected: "Hello FrastiawanTable",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			result := HelloWorld(test.request)
+			require.Equal(t, test.expected, result)
+		})
+	}
+
+}
+
+// SubTest
+func TestSubtest(t *testing.T) {
 
 	//jika ingin menjalankan salah satu testnya saja
 	//go test TestSubtest/Haikal
 	//go test TestSubtest/Frastiawan
-	
-	t.Run("Haikal", func(t *testing.T){
+
+	t.Run("Haikal", func(t *testing.T) {
 		result := HelloWorld("Haikal")
-		require.Equal(t, "Hello Haikal", result , "Result must be 'Hello Haikal'")
+		require.Equal(t, "Hello Haikal", result, "Result must be 'Hello Haikal'")
 	})
 
-	t.Run("Frastiawan", func(t *testing.T){
+	t.Run("Frastiawan", func(t *testing.T) {
 		result := HelloWorld("Frastiawan")
-		require.Equal(t, "Hello Frastiawan", result , "Result must be 'Hello Frastiawan'")
+		require.Equal(t, "Hello Frastiawan", result, "Result must be 'Hello Frastiawan'")
 	})
 
-}	
+}
 
-
-//TestMain -> before after tesst
+// TestMain -> before after tesst
 func TestMain(m *testing.M) {
 	// --- BEFORE TESTING ---
 	fmt.Println("Before Unit Test")
 	fmt.Println("Buka koneksi database...")
 	fmt.Println("Nyalakan server Redis...")
-
-
 
 	// Jalankan semua unit test (fungsi Test... lainnya)
 	exitCode := m.Run()
@@ -47,35 +72,33 @@ func TestMain(m *testing.M) {
 	fmt.Println("Hapus data sampah di database...")
 	fmt.Println("Tutup koneksi database...")
 
-
 	// Keluar dari proses test dengan kode yang sesuai
 	os.Exit(exitCode)
 }
 
-//skip
-func TestSkip(t *testing.T){
+// skip
+func TestSkip(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("can not run on Windows")
 	}
 
 	result := HelloWorld("Haikal")
-	require.Equal(t, "Hello Haikal", result , "Result must be 'Hello Haikal'")
-	
+	require.Equal(t, "Hello Haikal", result, "Result must be 'Hello Haikal'")
+
 }
 
-
-//Require -> sama seperti failNow() ketika gagal kode bawahnya ga di eksekusi
+// Require -> sama seperti failNow() ketika gagal kode bawahnya ga di eksekusi
 func TestHelloWorldRequire(t *testing.T) {
 	result := HelloWorld("Haikal")
-	require.Equal(t, "Hello Haikal", result , "Result must be 'Hello Haikal'")
+	require.Equal(t, "Hello Haikal", result, "Result must be 'Hello Haikal'")
 	//Require -> sama seperti failNow() ketika gagal kode bawahnya ga di eksekusi
 	fmt.Println("Test HelloWorld with Rquire DOne")
 }
 
-//assertion
+// assertion
 func TestHelloWorldAssert(t *testing.T) {
 	result := HelloWorld("Haikal")
-	assert.Equal(t, "Hello Haikal", result , "Result must be 'Hello Haikal'")
+	assert.Equal(t, "Hello Haikal", result, "Result must be 'Hello Haikal'")
 	fmt.Println("Test HelloWorld with Assert DOne")
 	//kalo gagal lebih detail error nya
 }
