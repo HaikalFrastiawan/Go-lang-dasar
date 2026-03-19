@@ -2,6 +2,7 @@ package helper
 
 import (
 	"fmt"
+	"os"
 	"runtime"
 	"testing"
 
@@ -9,12 +10,35 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+//TestMain -> before after tesst
+
+func TestMain(m *testing.M) {
+	// --- BEFORE TESTING ---
+	fmt.Println("Before Unit Test")
+	fmt.Println("Buka koneksi database...")
+	fmt.Println("Nyalakan server Redis...")
+
+
+
+	// Jalankan semua unit test (fungsi Test... lainnya)
+	exitCode := m.Run()
+
+	// --- AFTER TESTING ---
+	fmt.Println(" After Unit Test")
+	fmt.Println("Hapus data sampah di database...")
+	fmt.Println("Tutup koneksi database...")
+
+
+	// Keluar dari proses test dengan kode yang sesuai
+	os.Exit(exitCode)
+}
+
 //skip
 func TestSkip(t *testing.T){
 	if runtime.GOOS == "windows" {
 		t.Skip("can not run on Windows")
 	}
-	//ini hanya esek
+
 	result := HelloWorld("Haikal")
 	require.Equal(t, "Hello Haikal", result , "Result must be 'Hello Haikal'")
 	
