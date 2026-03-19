@@ -3,7 +3,27 @@ package helper
 import (
 	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 )
+
+//Require -> sama seperti failNow() ketika gagal kode bawahnya ga di eksekusi
+func TestHelloWorldRequire(t *testing.T) {
+	result := HelloWorld("Haikal")
+	require.Equal(t, "Hello Haikal", result , "Result must be 'Hello Haikal'")
+	//Require -> sama seperti failNow() ketika gagal kode bawahnya ga di eksekusi
+	fmt.Println("Test HelloWorld with Rquire DOne")
+}
+
+//assertion
+func TestHelloWorldAssert(t *testing.T) {
+	result := HelloWorld("Haikal")
+	assert.Equal(t, "Hello Haikal", result , "Result must be 'Hello Haikal'")
+	fmt.Println("Test HelloWorld with Assert DOne")
+	//kalo gagal lebih detail error nya
+}
 
 func TestHelloWorldHaikal(t *testing.T) {
 	result := HelloWorld("Haikal")
