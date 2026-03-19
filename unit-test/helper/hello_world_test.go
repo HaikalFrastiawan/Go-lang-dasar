@@ -10,8 +10,27 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-//TestMain -> before after tesst
+//SubTest 
+func TestSubtest(t *testing.T){
 
+	//jika ingin menjalankan salah satu testnya saja
+	//go test TestSubtest/Haikal
+	//go test TestSubtest/Frastiawan
+	
+	t.Run("Haikal", func(t *testing.T){
+		result := HelloWorld("Haikal")
+		require.Equal(t, "Hello Haikal", result , "Result must be 'Hello Haikal'")
+	})
+
+	t.Run("Frastiawan", func(t *testing.T){
+		result := HelloWorld("Frastiawan")
+		require.Equal(t, "Hello Frastiawan", result , "Result must be 'Hello Frastiawan'")
+	})
+
+}	
+
+
+//TestMain -> before after tesst
 func TestMain(m *testing.M) {
 	// --- BEFORE TESTING ---
 	fmt.Println("Before Unit Test")
