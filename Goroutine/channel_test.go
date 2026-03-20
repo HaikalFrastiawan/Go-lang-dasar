@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"testing"
 	"time"
-
 )
 
-func TestCreateChannel(t *testing.T){
+func TestCreateChannel(t *testing.T) {
 	channel := make(chan string)
 	defer close(channel)
 
-	go func () {
+	go func() {
 		time.Sleep(2 * time.Second)
 
 		//mengirim data
@@ -20,42 +19,42 @@ func TestCreateChannel(t *testing.T){
 	}()
 
 	//menerima data
-	data := <- channel
+	data := <-channel
 	fmt.Println(data)
 
 	time.Sleep(5 * time.Second)
 }
 
-//channel as parameter
-func  GiveMeResponse(channel chan string){
+// channel as parameter
+func GiveMeResponse(channel chan string) {
 	time.Sleep(2 * time.Second)
 	channel <- "Haikal Frastiawan"
 }
 
-func TestChannelAsParameter(t *testing.T){
+func TestChannelAsParameter(t *testing.T) {
 	channel := make(chan string)
 	defer close(channel)
 
 	go GiveMeResponse(channel)
 
-	data := <- channel
+	data := <-channel
 	fmt.Println(data)
 
 	time.Sleep(5 * time.Second)
 }
 
-//channel in and out
-func OnlyIn (channel chan<- string){
+// channel in and out
+func OnlyIn(channel chan<- string) {
 	time.Sleep(2 * time.Second)
 	channel <- "Haikal Frastiawan"
 }
 
-func OnlyOut (channel <-chan string){
-	data := <- channel
+func OnlyOut(channel <-chan string) {
+	data := <-channel
 	fmt.Println(data)
 }
 
-func TestInAndOutChannel(t *testing.T){
+func TestInAndOutChannel(t *testing.T) {
 	channel := make(chan string)
 	defer close(channel)
 
@@ -63,4 +62,26 @@ func TestInAndOutChannel(t *testing.T){
 	go OnlyOut(channel)
 
 	time.Sleep(5 * time.Second)
+}
+
+// Buffer Channel
+func TestBufferedChannel(t *testing.T) {
+	channel := make(chan string, 3) //Menambahkan 3 capacity buffer
+	defer close(channel)
+
+	go func() {
+
+		channel <- "Haikal"
+		channel <- "Frastiawan"
+		channel <- "Bufferred"
+	}()
+
+	go func(){
+		fmt.Println(<- channel)
+		fmt.Println(<- channel)
+		fmt.Println(<- channel)
+	}()	
+
+	time.Sleep(2 * time.Second)
+	fmt.Println("Selesai")
 }
