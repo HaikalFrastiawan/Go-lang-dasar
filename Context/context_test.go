@@ -60,6 +60,7 @@ func CreateCounter(ctx context.Context) chan int {
 			default:
 				destination <- counter
 				counter++
+				time.Sleep(1 *time.Second) //simulasi slow
 			}
 		}
 	}()
@@ -81,6 +82,23 @@ func TestContextWithCancel(t *testing.T) {
 		}
 	}
 	cancel() //mengiriyal cancel ke context
+
+	time.Sleep(2 * time.Second)
+	fmt.Println("Total Goroutine", runtime.NumGoroutine())
+}
+
+func TestContextWithTimeOut(t *testing.T) {
+	fmt.Println("Total Goroutine", runtime.NumGoroutine())
+
+	parent := context.Background()
+	ctx, cancel := context.WithTimeout(parent, 5 * time.Second) //5 detik loping ga selesai, batal
+	defer cancel()
+
+	destination := CreateCounter(ctx)
+	for n := range destination {
+		fmt.Println("Counter", n) //looping tidak berhenti
+	}
+
 
 	time.Sleep(2 * time.Second)
 	fmt.Println("Total Goroutine", runtime.NumGoroutine())
