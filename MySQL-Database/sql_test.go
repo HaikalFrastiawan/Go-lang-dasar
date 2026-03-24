@@ -230,7 +230,7 @@ func TestTransaction(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-
+	
 	script := "INSERT INTO comments(email, comment) VALUES(?,?)" 
 	//do transaction
 	for i := 0; i < 10; i++ {
