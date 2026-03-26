@@ -23,7 +23,7 @@ func TestHttp(t *testing.T) {
 	response := recorder.Result()
 	body, _ := io.ReadAll(response.Body)
 	bodyString := string(body)
-	
+	 
 	fmt.Println(bodyString)
 
 }
