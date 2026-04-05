@@ -63,7 +63,7 @@ func TestTemplateDirectory(t *testing.T) {
 
 //template embedded
 
-//go:embed templates/*.gohtml
+// //go:embed templates/*.gohtml
 // var templates embed.FS
 
 // func TemplateEmbedded(writer http.ResponseWriter, request *http.Request) {
