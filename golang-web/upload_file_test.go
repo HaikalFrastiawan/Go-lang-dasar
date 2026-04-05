@@ -40,7 +40,7 @@ func Upload(writer http.ResponseWriter, request *http.Request) {
 func TestUpload(t *testing.T) {
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
-	file, _ := writer.CreateFormFile("file", "sample.png")
+	file, _ := writer.CreateFormFile("file", "sample-product.png.jpg")
 	file.Write([]byte("Sample image content"))
 	writer.WriteField("name", "Haikal")
 	writer.Close()
@@ -56,18 +56,20 @@ func TestUpload(t *testing.T) {
 	fmt.Println(string(bodyResponse))
 }
 
-// ExampleTestUploadForm starts a real server and will block forever.
-// This is not recommended for normal unit testing.
-func ExampleTestUploadForm() {
+// TestUploadForm starts a real server for manual testing.
+// Note: This will block and cause 'go test' to stay running.
+func TestUploadForm(t *testing.T) {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", UploadForm)
 	mux.HandleFunc("/upload", Upload)
+	
 	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./resources"))))
 
 	server := http.Server{
 		Addr:    "localhost:8080",
 		Handler: mux,
 	}
+	fmt.Println("Server started at http://localhost:8080")
 	err := server.ListenAndServe()
 	if err != nil {
 		panic(err)
