@@ -4,20 +4,31 @@ import (
 
 	"encoding/json"
 	"fmt"
+
 	"testing"
 )
 
+type Address struct {
+	Street string
+	Country string
+	PostalCode string
+}
+
 type Customer struct {
-	FristName string
+	FirstName string
 	MiddleName string
 	LastName string
 	Age int
 	Married bool
+	Hobbies []string
+	Address []Address	
 }
+
+
 
 func TestJSONObject(t *testing.T) {
 	customer := Customer{
-		FristName: "Haikal",
+		FirstName: "Haikal",
 		MiddleName: "Frastiawan",
 		LastName: "Putra",
 		Age: 30,
