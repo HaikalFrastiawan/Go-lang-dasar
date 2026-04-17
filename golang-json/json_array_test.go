@@ -93,5 +93,5 @@ func TestJSONOnlyArrayComplexDecode(t *testing.T) {
 	}
 
 	fmt.Println(address)
-
+	
 }
