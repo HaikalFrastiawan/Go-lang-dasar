@@ -13,6 +13,7 @@
     "paths": {
         "/categories": {
             "get": {
+                "tags": ["Category API"],
                 "description": "list all categoriesx",
                 "responses": {
                     "200": {
