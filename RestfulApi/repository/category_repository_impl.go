@@ -3,11 +3,16 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"restful-api/helper"
 	"restful-api/model/domain"
 )
 
 type CategoryRepositoryImpl struct {
+}
+
+func NewCategoryRepository() CategoryRepository {
+	return &CategoryRepositoryImpl{}
 }
 
 func (reporepository *CategoryRepositoryImpl) Save(ctx context.Context, tx *sql.Tx, category domain.Category) domain.Category {
@@ -36,7 +41,7 @@ func (reporepository *CategoryRepositoryImpl) Delete(ctx context.Context, tx *sq
 	helper.PanicIfError(err)
 }
 
-func (reporepository *CategoryRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, categoryId int) domain.Category {
+func (reporepository *CategoryRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, categoryId int) (domain.Category, error) {
 	SQL := "select id, name from category where id = ?"
 	rows, err := tx.QueryContext(ctx, SQL, categoryId)
 	helper.PanicIfError(err)
@@ -45,9 +50,9 @@ func (reporepository *CategoryRepositoryImpl) FindById(ctx context.Context, tx *
 	if rows.Next() {
 		err := rows.Scan(&category.Id, &category.Name)
 		helper.PanicIfError(err)
-		return category
+		return category, nil
 	} else {
-		return category 
+		return category, errors.New("category is not found")
 	}
 }
 
