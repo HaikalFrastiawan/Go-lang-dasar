@@ -13,7 +13,6 @@ import (
 
 	"github.com/go-playground/validator"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/julienschmidt/httprouter"
 )
 
 const categoryPath = "/api/categories/:categoryId"
@@ -27,18 +26,12 @@ func main() {
 	NewcategoryService := service.NewCategoryService(categoryRepository, db, validate)
 	categoryController := controller.NewCategoryController(NewcategoryService)
 
-	router := httprouter.New()
-
-	router.GET("/api/categories", categoryController.FindAll)
-	router.GET("/api/categories/:categoryId", categoryController.FindByID)
-	router.POST("/api/categories", categoryController.Create)
-	router.PUT("/api/categories/:categoryId", categoryController.Update)
-	router.DELETE("/api/categories/:categoryId", categoryController.Delete)
+	router := app.NewRouter(categoryController)
 
 	router.PanicHandler = exception.ErrorHandler
 
 	server := http.Server{
-		Addr: "localhost:3000",
+		Addr:    "localhost:3000",
 		Handler: middleware.NewAuthMiddleware(router),
 	}
 
