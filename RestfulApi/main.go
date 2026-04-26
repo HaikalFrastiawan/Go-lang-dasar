@@ -7,6 +7,7 @@ import (
 	"restful-api/controller"
 	"restful-api/exception"
 	"restful-api/helper"
+	"restful-api/middleware"
 	"restful-api/repository"
 	"restful-api/service"
 
@@ -38,7 +39,7 @@ func main() {
 
 	server := http.Server{
 		Addr: "localhost:3000",
-		Handler: router,
+		Handler: middleware.NewAuthMiddleware(router),
 	}
 
 	fmt.Println("Server sedang berjalan di http://localhost:3000")
