@@ -1,6 +1,7 @@
 package test
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -11,8 +12,10 @@ import (
 	"restful-api/controller"
 	"restful-api/helper"
 	"restful-api/middleware"
+	"restful-api/model/domain"
 	"restful-api/repository"
 	"restful-api/service"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -79,11 +82,64 @@ func TestCreateCategorySuccess(t *testing.T) {
 }
 
 func TestCreateCategoryFailed(t *testing.T) {
+	db := SetupTestDB()
+	truncateCategory(db)
+	router := SetupRouter(db)
 
+
+	requestBody := strings.NewReader(`{"name": ""}`)
+	request := httptest.NewRequest(http.MethodPost, "http://localhost:3000/api/categories", requestBody)
+	request.Header.Add("Content-Type", "application/json")
+	request.Header.Add("X-API-Key", "RAHASIA")
+
+	recorder := httptest.NewRecorder()
+	router.ServeHTTP(recorder, request)
+
+	response := recorder.Result()
+	assert.Equal(t, 400, response.StatusCode)
+
+	body, _  := io.ReadAll(response.Body)
+	var responseBody map[string]interface{}
+	json.Unmarshal(body, &responseBody)
+	fmt.Println(responseBody)	
+	assert.Equal(t, 400, int(responseBody["code"].(float64)))
+	assert.Equal(t, "BAD REQUEST", responseBody["status"])
+	
 }
 
 func TestUpdateCategorySuccess(t *testing.T) {
+	db := SetupTestDB()
+	truncateCategory(db)
 
+
+	tx,_ := db.Begin()
+	categoryRepository := repository.NewCategoryRepository()
+	category := categoryRepository.Save(context.Background(),tx, domain.Category{
+		Name: "Gadget",
+	})
+	tx.Commit()
+
+	router := SetupRouter(db)
+
+	requestBody := strings.NewReader(`{"name": "Macbook"}`)
+	request := httptest.NewRequest(http.MethodPut, "http://localhost:3000/api/categories/" + strconv.Itoa(category.Id), requestBody)
+	request.Header.Add("Content-Type", "application/json")
+	request.Header.Add("X-API-Key", "RAHASIA")
+
+	recorder := httptest.NewRecorder()
+	router.ServeHTTP(recorder, request)
+
+	response := recorder.Result()
+	assert.Equal(t, 200, response.StatusCode)
+
+	body, _  := io.ReadAll(response.Body)
+	var responseBody map[string]interface{}
+	json.Unmarshal(body, &responseBody)
+	fmt.Println(responseBody)	
+	assert.Equal(t, 200, int(responseBody["code"].(float64)))
+	assert.Equal(t, "OK", responseBody["status"])
+	assert.Equal(t, category.Id, int(responseBody["data"].(map[string]interface{})["id"].(float64)))
+	assert.Equal(t, "Macbook", responseBody["data"].(map[string]interface{})["name"])
 }
 
 func TestUpdateCategoryFailed(t *testing.T) {
