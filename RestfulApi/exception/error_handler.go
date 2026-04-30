@@ -9,8 +9,8 @@ import (
 )
 
 func ErrorHandler(writer http.ResponseWriter, request *http.Request, err interface{}) {
-	if notFoundError(writer, request, err){
-		return   
+	if notFoundError(writer, request, err) {
+		return
 	}
 
 	if validationErrors(writer, request, err) {
@@ -52,11 +52,10 @@ func notFoundError(writer http.ResponseWriter, request *http.Request, err interf
 	return false
 }
 
-
 func internalServerError(writer http.ResponseWriter, request *http.Request, err interface{}) {
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusInternalServerError)
-	
+
 	webResponse := web.WebResponse{
 		Code:   http.StatusInternalServerError,
 		Status: "Internal Server Error",
