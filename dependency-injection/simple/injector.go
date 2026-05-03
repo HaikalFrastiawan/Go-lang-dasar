@@ -44,3 +44,11 @@ func InitializedHelloService() *HelloService {
 	return nil
 
 }
+
+func InitializedConfiguration() *Configuration {
+	wire.Build(
+		NewApplication,
+		wire.FieldsOf(new (*Application), "Configuration"),
+	)
+	return nil
+}
