@@ -39,5 +39,4 @@ func TestLength(t *testing.T) {
 
 	assert.Equal(t, "Hello, World!", result)
 	assert.Equal(t, 42, resultNumber)
-
 }
