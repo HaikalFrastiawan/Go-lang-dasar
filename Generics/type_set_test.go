@@ -22,9 +22,9 @@ func Min[T Number](a, b T) T {
 }
 
 func TestMin(t *testing.T) {
-	assert.Equal(t, 3, Min[int](3, 5))
-	assert.Equal(t, 2.5, Min[float64](2.5, 3.7))
-	assert.Equal(t, uint(10), Min[uint](10, 20))
-	assert.Equal(t, int16(-5), Min[int16](-5, 0))
-	assert.Equal(t, Age(30), Min[Age](Age(30), Age(40)))
+	assert.Equal(t, 3, Min(3, 5))
+	assert.Equal(t, 2.5, Min(2.5, 3.7))
+	assert.Equal(t, uint(10), Min(10, 20))
+	assert.Equal(t, int16(-5), Min(-5, 0))
+	assert.Equal(t, Age(30), Min(Age(30), Age(40)))
 }
