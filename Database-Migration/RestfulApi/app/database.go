@@ -20,3 +20,6 @@ func NewDB() *sql.DB {
 }
 
 //migrate -database "mysql://root@tcp(localhost:3306)/golang-database-migration" -path RestfulApi/db/migration up
+
+//rollback
+//migrate -database "mysql://root@tcp(localhost:3306)/golang-database-migration" -path RestfulApi/db/migration down
