@@ -8,7 +8,7 @@ import (
 
 func NewDB() *sql.DB {
 	
-	db, err :=sql.Open("mysql", "root@tcp(localhost:3306)/golang-restful-api")
+	db, err :=sql.Open("mysql", "root@tcp(localhost:3306)/golang-database-migration")
 	helper.PanicIfError(err)
 	
 	db.SetMaxIdleConns(5)
@@ -18,3 +18,5 @@ func NewDB() *sql.DB {
 
 	return db
 }
+
+//migrate -database "mysql://root@tcp(localhost:3306)/golang-database-migration" -path RestfulApi/db/migration up
