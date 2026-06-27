@@ -37,12 +37,12 @@ func TestValidateTwoVariabel(t *testing.T) {
 	}
 }
 
-func TestMultipleTag(t *testing.T) {
+func TestTagParameter(t *testing.T) {
 	validate := validator.New()
 
-	user := "eko1125"
+	user := "99"
 
-	err := validate.Var(user, "required,numeric")
+	err := validate.Var(user, "required,numeric,min=5,max=10")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
