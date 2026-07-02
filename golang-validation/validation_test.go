@@ -166,3 +166,45 @@ func TestCollection(t *testing.T) {
         fmt.Println(err.Error())
     }
 }
+
+func TestBasicCollection(t *testing.T) {
+    type Address struct {
+        City    string `validate:"required"`
+        Country string `validate:"required"`
+    }
+
+    type User struct {
+        Id      string    `validate:"required"`
+        Name    string    `validate:"required"`
+        Address []Address `validate:"required,dive"` 
+		Hobbies []string `validate:"dive,required,min=3"`
+    }
+
+    validate := validator.New()
+
+    Request := User{
+        Id:   "",
+        Name: "",
+        Address: []Address{ 
+            {
+                City:    "",
+                Country: "",
+            },
+            {
+                City:    "",
+                Country: "",
+            },
+        },
+		Hobbies: []string{
+			"gaming",
+			"Coding",
+			"",
+			
+		},
+    }
+
+    err := validate.Struct(Request)
+    if err != nil {
+        fmt.Println(err.Error())
+    }
+}
